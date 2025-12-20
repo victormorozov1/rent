@@ -50,3 +50,11 @@ def listing_list(request):
 def listing_detail(request, pk):
     listing = get_object_or_404(Listing.objects.prefetch_related("photos", "tags"), pk=pk)
     return render(request, "listings/listing_detail.html", {"listing": listing})
+
+
+def favorites_list(request):
+    listings = Listing.objects.all().prefetch_related("tags", "photos").order_by("-created_at")
+    context = {
+        "listings": listings,
+    }
+    return render(request, "listings/listing_favorites.html", context)

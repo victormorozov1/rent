@@ -1,0 +1,78 @@
+{% extends "listings/base.html" %}
+
+{% block title %}Избранные объявления — аренда в Нячанге{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Избранные квартиры</h1>
+    <p>Сохраняйте понравившиеся варианты и возвращайтесь к ним позже. Список хранится в вашем браузере.</p>
+</section>
+
+<section class="favorites-actions">
+    <a href="{% url 'listings:listing_list' %}" class="btn-ghost">← Вернуться в каталог</a>
+</section>
+
+<section class="cards-grid favorites-grid" data-favorites-page>
+    {% for listing in listings %}
+        <article class="listing-card" data-listing-id="{{ listing.id }}">
+            {% with photos=listing.photos.all %}
+                <div class="listing-thumb">
+                    <div class="carousel carousel--card" data-carousel>
+                        <a href="{% url 'listings:listing_detail' listing.id %}" class="carousel-viewport">
+                            <div class="carousel-track">
+                                {% if photos %}
+                                    {% for photo in photos %}
+                                        <img src="{{ photo.image.url }}"
+                                             alt="{{ listing.title }} фото {{ forloop.counter }}"
+                                             class="carousel-slide">
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="carousel-slide listing-thumb-placeholder">
+                                        <span>Нет фото</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </a>
+                        {% if photos %}
+                            <button class="carousel-btn carousel-btn-prev" type="button" data-carousel-prev>‹</button>
+                            <button class="carousel-btn carousel-btn-next" type="button" data-carousel-next>›</button>
+                            <div class="carousel-dots" data-carousel-dots></div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endwith %}
+            <div class="listing-body">
+                <div class="listing-header">
+                    <h2 class="listing-title">
+                        <a href="{% url 'listings:listing_detail' listing.id %}">
+                            {{ listing.title }}
+                        </a>
+                    </h2>
+                    <button class="favorite-btn" type="button">
+                        <span class="favorite-icon">☆</span>
+                    </button>
+                </div>
+                <p class="listing-price">{{ listing.price_per_month }} ₽ / месяц</p>
+                <p class="listing-address">{{ listing.address }}</p>
+                <div class="listing-tags">
+                    {% for tag in listing.tags.all %}
+                        <span class="tag-pill" style="--tag-color: {{ tag.color }}">
+                            <span class="tag-pill-icon">{{ tag.icon }}</span>
+                            {{ tag.name }}
+                        </span>
+                    {% endfor %}
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+</section>
+
+<div id="favorites-empty" class="empty-state" hidden>
+    <div class="empty-state-card">
+        <div class="empty-state-icon">☆</div>
+        <h2>Нет избранных объявлений</h2>
+        <p>Нажмите на звёздочку в карточке, чтобы сохранить понравившуюся квартиру.</p>
+        <a href="{% url 'listings:listing_list' %}" class="btn-primary">Перейти к каталогу</a>
+    </div>
+</div>
+{% endblock %}

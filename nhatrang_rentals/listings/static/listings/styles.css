@@ -82,6 +82,32 @@ a:hover {
     letter-spacing: 0.01em;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: rgba(15, 23, 42, 0.9);
+    color: var(--text-main);
+    font-size: 14px;
+    text-decoration: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.header-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.8);
+    border-color: rgba(56, 189, 248, 0.5);
+}
+
 .site-main {
     padding: 24px 0 40px;
 }
@@ -254,6 +280,18 @@ a:hover {
     gap: 18px;
 }
 
+.favorites-actions {
+    margin-bottom: 12px;
+}
+
+.favorites-grid .listing-card {
+    display: none;
+}
+
+.favorites-grid .listing-card.is-visible {
+    display: flex;
+}
+
 .listing-card {
     background: radial-gradient(circle at top, #020617, #000);
     border-radius: var(--radius-lg);
@@ -399,6 +437,49 @@ a:hover {
 
 .tag-pill {
     box-shadow: 0 6px 12px rgba(15, 23, 42, 0.8);
+}
+
+/* Empty state */
+
+.empty-state {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.empty-state-card {
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    padding: 22px 18px;
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    background: radial-gradient(circle at top, #0b1220, #020617);
+    box-shadow: var(--shadow-soft);
+}
+
+.empty-state-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    background: rgba(250, 204, 21, 0.12);
+    color: #facc15;
+    font-size: 22px;
+    border: 1px solid rgba(250, 204, 21, 0.4);
+}
+
+.empty-state h2 {
+    margin: 0 0 6px;
+    font-size: 20px;
+}
+
+.empty-state p {
+    margin: 0 0 14px;
+    color: var(--text-muted);
 }
 
 /* Favorites */

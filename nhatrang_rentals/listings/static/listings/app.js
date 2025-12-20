@@ -135,6 +135,30 @@ function updateFavoriteButtonsState() {
             if (textSpan) textSpan.textContent = isFav ? "В избранном" : "В избранное";
         }
     }
+
+    updateFavoritesPageVisibility();
+}
+
+function updateFavoritesPageVisibility() {
+    const favoritesGrid = document.querySelector("[data-favorites-page]");
+    if (!favoritesGrid) return;
+
+    const favoritesSet = new Set(readFavorites().map(String));
+    let visibleCount = 0;
+
+    favoritesGrid.querySelectorAll("[data-listing-id]").forEach((card) => {
+        const id = card.getAttribute("data-listing-id");
+        const isFav = favoritesSet.has(String(id));
+        card.classList.toggle("is-visible", isFav);
+        if (isFav) {
+            visibleCount += 1;
+        }
+    });
+
+    const emptyState = document.getElementById("favorites-empty");
+    if (emptyState) {
+        emptyState.hidden = visibleCount !== 0;
+    }
 }
 
 // ======= Карусель фото на странице детали =======
