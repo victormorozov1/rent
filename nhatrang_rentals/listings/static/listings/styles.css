@@ -152,6 +152,10 @@ a:hover {
     flex-wrap: wrap;
 }
 
+.favorites-back-link {
+    align-self: center;
+}
+
 .favorites-subtitle {
     color: var(--text-muted);
     margin: 6px 0 0;
