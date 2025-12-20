@@ -8,6 +8,49 @@
     <p>Выберите уютную квартиру у моря. Без регистрации, просто свяжитесь через Telegram.</p>
 </section>
 
+<section class="hero-grid">
+    <div class="hero-copy">
+        <p class="eyebrow">Найдите своё место у моря</p>
+        <h2>Свежие варианты от хозяев</h2>
+        <p>Смотрите подборку новых квартир с лучшими видами, отфильтруйте по цене и свяжитесь напрямую в пару кликов.</p>
+        <div class="hero-actions">
+            <a class="btn-primary" href="#filter-form">Настроить фильтры</a>
+            <a class="btn-ghost" href="#listings-grid">Смотреть все</a>
+        </div>
+    </div>
+    <div class="hero-carousel-card">
+        <div class="carousel" data-carousel data-carousel-autoplay="5000">
+            <div class="carousel-viewport">
+                <div class="carousel-track">
+                    {% for listing in listings|slice:":6" %}
+                        {% with photo=listing.photos.first %}
+                            <div class="carousel-slide hero-slide">
+                                {% if photo %}
+                                    <img src="{{ photo.image.url }}" alt="{{ listing.title }}">
+                                {% else %}
+                                    <div class="carousel-empty">Нет фото, но квартира ждёт вас</div>
+                                {% endif %}
+                                <div class="hero-slide__overlay">
+                                    <span class="tag-pill">{{ listing.price_per_month }} ₽ / месяц</span>
+                                    <h3>{{ listing.title }}</h3>
+                                    <p>{{ listing.address }}</p>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    {% empty %}
+                        <div class="carousel-slide hero-slide">
+                            <div class="carousel-empty">Скоро появятся первые квартиры</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <button class="carousel-btn carousel-btn-prev" type="button" data-carousel-prev>‹</button>
+            <button class="carousel-btn carousel-btn-next" type="button" data-carousel-next>›</button>
+            <div class="carousel-dots" data-carousel-dots></div>
+        </div>
+    </div>
+</section>
+
 <section class="filters-card">
     <form id="filter-form" method="get" class="filters-form">
         <div class="filters-row">
@@ -52,7 +95,7 @@
     </form>
 </section>
 
-<section class="cards-grid">
+<section class="cards-grid" id="listings-grid">
     {% if listings %}
         {% for listing in listings %}
             <article class="listing-card" data-listing-id="{{ listing.id }}">

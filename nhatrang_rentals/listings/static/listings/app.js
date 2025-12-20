@@ -146,6 +146,8 @@ function initCarousel(root) {
     if (!slides.length) return;
 
     let currentIndex = 0;
+    const autoplayMs = parseInt(root.dataset.carouselAutoplay, 10);
+    let autoplayTimer = null;
 
     function update() {
         const offset = -currentIndex * 100;
@@ -159,23 +161,44 @@ function initCarousel(root) {
         }
     }
 
+    function goTo(index) {
+        currentIndex = (index + slides.length) % slides.length;
+        update();
+    }
+
+    function stopAutoplay() {
+        if (autoplayTimer) {
+            clearInterval(autoplayTimer);
+            autoplayTimer = null;
+        }
+    }
+
+    function startAutoplay() {
+        stopAutoplay();
+        if (!autoplayMs || slides.length <= 1) return;
+        autoplayTimer = setInterval(() => {
+            goTo(currentIndex + 1);
+            trackAction("carousel_autoplay", { index: currentIndex });
+        }, autoplayMs);
+    }
+
     // Кнопки
     const prevBtn = root.querySelector("[data-carousel-prev]");
     const nextBtn = root.querySelector("[data-carousel-next]");
 
     if (prevBtn) {
         prevBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-            update();
+            goTo(currentIndex - 1);
             trackAction("carousel_prev", { index: currentIndex });
+            startAutoplay();
         });
     }
 
     if (nextBtn) {
         nextBtn.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % slides.length;
-            update();
+            goTo(currentIndex + 1);
             trackAction("carousel_next", { index: currentIndex });
+            startAutoplay();
         });
     }
 
@@ -187,15 +210,25 @@ function initCarousel(root) {
             const dot = document.createElement("button");
             if (idx === 0) dot.classList.add("is-active");
             dot.addEventListener("click", () => {
-                currentIndex = idx;
-                update();
+                goTo(idx);
                 trackAction("carousel_dot", { index: currentIndex });
+                startAutoplay();
             });
             dotsContainer.appendChild(dot);
         });
     }
 
+    if (slides.length <= 1) {
+        [prevBtn, nextBtn, dotsContainer].forEach((el) => {
+            if (el) el.style.display = "none";
+        });
+    }
+
+    root.addEventListener("mouseenter", stopAutoplay);
+    root.addEventListener("mouseleave", startAutoplay);
+
     update();
+    startAutoplay();
 }
 
 // ======= Инициализация на DOMContentLoaded =======
@@ -258,8 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Карусель
-    const carousel = document.querySelector("[data-carousel]");
-    if (carousel) {
+    document.querySelectorAll("[data-carousel]").forEach((carousel) => {
         initCarousel(carousel);
-    }
+    });
 });

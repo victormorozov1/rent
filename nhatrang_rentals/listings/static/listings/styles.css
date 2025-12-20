@@ -86,6 +86,56 @@ a:hover {
     padding: 24px 0 40px;
 }
 
+.hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 26px;
+}
+
+.hero-copy {
+    background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(8, 47, 73, 0.05)),
+                radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.18), rgba(2, 6, 23, 0.9));
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: var(--radius-xl);
+    padding: 20px 22px;
+    box-shadow: var(--shadow-soft);
+}
+
+.hero-copy h2 {
+    font-size: clamp(24px, 4vw, 30px);
+    margin: 6px 0 10px;
+}
+
+.hero-copy p {
+    margin: 0 0 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 12px;
+    color: #a5f3fc;
+    margin: 0;
+}
+
+.hero-carousel-card {
+    background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), rgba(2, 6, 23, 0.92));
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: var(--radius-xl);
+    padding: 12px;
+    box-shadow: var(--shadow-soft);
+}
+
 .site-footer {
     border-top: 1px solid rgba(148, 163, 184, 0.3);
     padding: 16px 0 20px;
@@ -510,6 +560,8 @@ a:hover {
     height: 100%;
     flex-shrink: 0;
     object-fit: cover;
+    position: relative;
+    overflow: hidden;
 }
 
 .carousel-empty {
@@ -579,6 +631,36 @@ a:hover {
     background: #38bdf8;
 }
 
+.hero-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-slide__overlay {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 12px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(2, 6, 23, 0) 0%, rgba(2, 6, 23, 0.75) 100%);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+.hero-slide__overlay h3 {
+    margin: 8px 0 6px;
+}
+
+.hero-slide__overlay p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
 /* Responsive */
 
 @media (max-width: 900px) {
@@ -586,6 +668,9 @@ a:hover {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .detail-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .hero-grid {
         grid-template-columns: minmax(0, 1fr);
     }
 }
