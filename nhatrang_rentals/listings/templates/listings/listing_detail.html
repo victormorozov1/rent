@@ -45,9 +45,12 @@
         <div class="detail-info">
             <div class="detail-header">
                 <h1>{{ listing.title }}</h1>
-                <button class="favorite-btn" type="button">
-                    <span class="favorite-icon">☆</span>
-                    <span class="favorite-text">В избранное</span>
+                <button class="favorite-btn"
+                        type="button"
+                        data-open-favorites-list
+                        data-favorites-url="{% url 'listings:listing_list' %}">
+                    <span class="favorite-icon">★</span>
+                    <span class="favorite-text">Избранное</span>
                 </button>
             </div>
             <p class="detail-price">{{ listing.price_per_month }} ₽ / месяц</p>

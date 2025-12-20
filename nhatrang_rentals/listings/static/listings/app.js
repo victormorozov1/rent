@@ -195,6 +195,13 @@ function updateFavoriteButtonsState() {
         const listingId = detailLayout.getAttribute("data-listing-id");
         const btn = detailLayout.querySelector(".favorite-btn");
         if (btn) {
+            if (btn.hasAttribute("data-open-favorites-list")) {
+                const icon = btn.querySelector(".favorite-icon");
+                const textSpan = btn.querySelector(".favorite-text");
+                if (icon) icon.textContent = "★";
+                if (textSpan) textSpan.textContent = "Избранное";
+                return;
+            }
             const isFav = set.has(String(listingId));
             btn.classList.toggle("is-favorite", isFav);
             const icon = btn.querySelector(".favorite-icon");
@@ -356,6 +363,18 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.addEventListener("click", (e) => {
         const btn = e.target.closest(".favorite-btn");
         if (!btn) return;
+
+        if (btn.hasAttribute("data-open-favorites-list")) {
+            const container = btn.closest("[data-listing-id]");
+            const listingId = container?.getAttribute("data-listing-id") || null;
+            const favoritesUrl = btn.getAttribute("data-favorites-url") || "/";
+
+            favoriteFilterEnabled = true;
+            writeFavoriteFilterState(true);
+            trackAction("favorites_open_list", { from: "detail", listing_id: listingId });
+            window.location.href = favoritesUrl;
+            return;
+        }
 
         // определяем listing id
         let container = btn.closest("[data-listing-id]");
