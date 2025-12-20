@@ -188,6 +188,9 @@ function initCarousel(root) {
         if (thumbsContainer) {
             thumbsContainer.querySelectorAll(".carousel-thumb").forEach((thumb, idx) => {
                 thumb.classList.toggle("is-active", idx === currentIndex);
+                if (idx === currentIndex) {
+                    thumb.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                }
             });
         }
 

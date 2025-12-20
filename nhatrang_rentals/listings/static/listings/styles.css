@@ -432,7 +432,7 @@ a:hover {
 .detail-main {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 18px;
 }
 
 .detail-gallery,
@@ -444,7 +444,7 @@ a:hover {
 }
 
 .detail-gallery {
-    padding: 14px;
+    padding: 18px 18px 14px;
 }
 
 .detail-info {
@@ -498,10 +498,11 @@ a:hover {
     overflow: hidden;
     border-radius: 18px;
     border: 1px solid rgba(148, 163, 184, 0.4);
-    background: radial-gradient(circle at center, #020617, #000);
+    background: radial-gradient(circle at 30% 35%, rgba(56, 189, 248, 0.08), transparent 45%),
+        radial-gradient(circle at center, #020617, #000);
     /* фиксированная высота по соотношению сторон */
-    aspect-ratio: 16 / 10;
-    max-height: 540px;
+    aspect-ratio: 16 / 9;
+    max-height: 620px;
 }
 
 .carousel-track {
@@ -586,26 +587,39 @@ a:hover {
 }
 
 .carousel-thumbnails {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: 10px;
-    margin-top: 12px;
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    padding: 6px 4px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    justify-content: flex-start;
+}
+
+.carousel-thumbnails::-webkit-scrollbar {
+    height: 6px;
+}
+
+.carousel-thumbnails::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.35);
+    border-radius: 999px;
 }
 
 .carousel-thumb {
+    min-width: 110px;
     border: 1px solid rgba(148, 163, 184, 0.4);
-    border-radius: 12px;
-    padding: 4px;
-    background: rgba(2, 6, 23, 0.8);
+    border-radius: 14px;
+    padding: 3px;
+    background: rgba(2, 6, 23, 0.92);
     cursor: pointer;
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
 .carousel-thumb img {
-    width: 100%;
+    width: 104px;
+    height: 72px;
     display: block;
-    border-radius: 8px;
-    aspect-ratio: 4 / 3;
+    border-radius: 11px;
     object-fit: cover;
 }
 
