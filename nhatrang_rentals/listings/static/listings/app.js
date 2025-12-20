@@ -317,6 +317,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // Фавориты
     updateFavoriteButtonsState();
 
+    const favoritesLink = document.querySelector(".header-favorites-link");
+    if (favoritesLink) {
+        favoritesLink.addEventListener("click", (event) => {
+            const ids = readFavorites();
+            if (!Array.isArray(ids) || ids.length === 0) {
+                return; // идём по обычной ссылке, если нет сохранённых
+            }
+
+            event.preventDefault();
+            const target = new URL(favoritesLink.href, window.location.origin);
+            target.searchParams.set("ids", ids.join(","));
+            window.location.href = target.toString();
+        });
+    }
+
     document.body.addEventListener("click", (e) => {
         const btn = e.target.closest(".favorite-btn");
         if (!btn) return;
