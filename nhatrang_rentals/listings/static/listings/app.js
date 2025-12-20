@@ -288,6 +288,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // Фильтры — отправка формы
     const filterForm = document.getElementById("filter-form");
     if (filterForm) {
+        let filterSubmitTimeout;
+
+        const submitFilters = () => {
+            filterForm.requestSubmit();
+        };
+
+        const scheduleFilterSubmit = () => {
+            clearTimeout(filterSubmitTimeout);
+            filterSubmitTimeout = setTimeout(submitFilters, 300);
+        };
+
         filterForm.addEventListener("submit", () => {
             const formData = new FormData(filterForm);
             const payload = Object.fromEntries(formData.entries());
@@ -298,9 +309,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (sortSelect) {
             sortSelect.addEventListener("change", () => {
                 trackAction("sort_change", { sort: sortSelect.value });
-                filterForm.requestSubmit();
+                submitFilters();
             });
         }
+
+        filterForm.querySelectorAll("input, select").forEach((input) => {
+            const eventName = input.type === "number" || input.type === "text" ? "input" : "change";
+            input.addEventListener(eventName, () => {
+                if (input.type === "radio" || input.type === "checkbox" || eventName === "change") {
+                    submitFilters();
+                } else {
+                    scheduleFilterSubmit();
+                }
+            });
+        });
     }
 
     // Telegram-кнопка на странице детали
