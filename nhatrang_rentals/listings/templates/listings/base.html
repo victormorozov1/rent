@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Аренда квартир в Нячанге{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'listings/styles.css' %}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="{% url 'listings:listing_list' %}" class="logo">
+            <span class="logo-icon">🏝️</span>
+            <span class="logo-text">Нячанг&nbsp;— аренда жилья</span>
+        </a>
+    </div>
+</header>
+
+<main class="site-main">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <p>Нячанг · Уютные квартиры у моря без регистрации · {{ now|date:"Y" }}</p>
+    </div>
+</footer>
+
+<script src="{% static 'listings/app.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% extends "listings/base.html" %}
+
+{% block title %}{{ listing.title }} — аренда в Нячанге{% endblock %}
+
+{% block content %}
+<a href="{% url 'listings:listing_list' %}" class="back-link">← Назад к списку</a>
+
+<section class="detail-layout" data-listing-id="{{ listing.id }}">
+    <div class="detail-main">
+        <div class="carousel" data-carousel>
+            <div class="carousel-viewport">
+                <div class="carousel-track">
+                    {% for photo in listing.photos.all %}
+                        <img src="{{ photo.image.url }}"
+                             alt="{{ listing.title }} фото {{ forloop.counter }}"
+                             class="carousel-slide">
+                    {% empty %}
+                        <div class="carousel-empty">
+                            Нет фотографий
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if listing.photos.all %}
+            <button class="carousel-btn carousel-btn-prev" type="button" data-carousel-prev>‹</button>
+            <button class="carousel-btn carousel-btn-next" type="button" data-carousel-next>›</button>
+            <div class="carousel-dots" data-carousel-dots></div>
+            {% endif %}
+        </div>
+    </div>
+
+    <aside class="detail-sidebar">
+        <div class="detail-header">
+            <h1>{{ listing.title }}</h1>
+            <button class="favorite-btn" type="button">
+                <span class="favorite-icon">☆</span>
+                <span class="favorite-text">В избранное</span>
+            </button>
+        </div>
+        <p class="detail-price">{{ listing.price_per_month }} $ / месяц</p>
+        <p class="detail-address">{{ listing.address }}</p>
+
+        <div class="listing-tags">
+            {% for tag in listing.tags.all %}
+                <span class="tag-pill" style="--tag-color: {{ tag.color }}">
+                    <span class="tag-pill-icon">{{ tag.icon }}</span>
+                    {{ tag.name }}
+                </span>
+            {% endfor %}
+        </div>
+
+        <div class="detail-description">
+            <h2>Описание</h2>
+            <p>{{ listing.description|linebreaksbr }}</p>
+        </div>
+
+        <button id="telegram-button"
+                type="button"
+                class="btn-primary btn-full">
+            💬 Связаться в Telegram
+        </button>
+    </aside>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    window.TELEGRAM_URL = "{{ listing.telegram_url|escapejs }}";
+</script>
+{% endblock %}

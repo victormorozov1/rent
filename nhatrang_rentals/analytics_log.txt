@@ -1,0 +1,12 @@
+2025-12-20T11:43:44.566477+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	page_view	{"path": "/", "search": ""}
+2025-12-20T11:48:28.296540+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	page_view	{"path": "/", "search": ""}
+2025-12-20T11:48:35.667468+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	page_view	{"path": "/listing/1/", "search": ""}
+2025-12-20T11:48:36.983279+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	carousel_next	{"index": 1}
+2025-12-20T11:48:37.980199+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	carousel_next	{"index": 2}
+2025-12-20T11:48:38.713267+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	carousel_next	{"index": 0}
+2025-12-20T11:48:39.593977+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	carousel_next	{"index": 1}
+2025-12-20T11:48:40.094202+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	carousel_next	{"index": 2}
+2025-12-20T11:48:46.698033+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	favorite_add	{"listing_id": "1"}
+2025-12-20T11:48:48.618576+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	page_view	{"path": "/", "search": ""}
+2025-12-20T11:48:55.163368+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	page_view	{"path": "/", "search": ""}
+2025-12-20T11:48:57.559115+00:00	0faf3b0e-6d87-4c7f-8707-d92588441dd1	page_view	{"path": "/", "search": ""}
