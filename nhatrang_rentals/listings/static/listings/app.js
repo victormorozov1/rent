@@ -145,13 +145,15 @@ function updateFavoritesPageVisibility() {
     const favoritesGrid = document.querySelector("[data-favorites-page]");
     if (!favoritesGrid) return;
 
-    const favoritesSet = new Set(readFavorites().map(String));
+    const favoritesList = readFavorites().map(String);
+    const favoritesSet = new Set(favoritesList);
     let visibleCount = 0;
 
     favoritesGrid.querySelectorAll("[data-listing-id]").forEach((card) => {
         const id = card.getAttribute("data-listing-id");
         const isFav = favoritesSet.has(String(id));
         card.classList.toggle("is-visible", isFav);
+        card.hidden = !isFav;
         if (isFav) {
             visibleCount += 1;
         }
@@ -159,7 +161,9 @@ function updateFavoritesPageVisibility() {
 
     const emptyState = document.getElementById("favorites-empty");
     if (emptyState) {
-        emptyState.hidden = visibleCount !== 0;
+        const hasVisibleFavorites = visibleCount > 0;
+        const hasStoredFavorites = favoritesList.length > 0;
+        emptyState.hidden = hasVisibleFavorites || hasStoredFavorites;
     }
 }
 

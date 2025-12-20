@@ -284,14 +284,6 @@ a:hover {
     margin-bottom: 12px;
 }
 
-.favorites-grid .listing-card {
-    display: none;
-}
-
-.favorites-grid .listing-card.is-visible {
-    display: flex;
-}
-
 .listing-card {
     background: radial-gradient(circle at top, #020617, #000);
     border-radius: var(--radius-lg);
