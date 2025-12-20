@@ -148,16 +148,54 @@ function initCarousel(root) {
     let currentIndex = 0;
     const listingId = root.closest("[data-listing-id]")?.getAttribute("data-listing-id") || null;
 
+    const thumbsContainer = root.querySelector("[data-carousel-thumbs]");
+    const lightbox = root.querySelector("[data-carousel-lightbox]");
+    const lightboxImg = lightbox?.querySelector("[data-carousel-lightbox-img]");
+
+    function renderThumbnails() {
+        if (!thumbsContainer) return;
+        thumbsContainer.innerHTML = "";
+
+        slides.forEach((slide, idx) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "carousel-thumb";
+
+            const img = document.createElement("img");
+            img.src = slide.src;
+            img.alt = slide.alt || `Фото ${idx + 1}`;
+            btn.appendChild(img);
+
+            btn.addEventListener("click", () => {
+                currentIndex = idx;
+                update();
+                trackAction("carousel_thumb", { index: currentIndex });
+            });
+
+            thumbsContainer.appendChild(btn);
+        });
+    }
+
+    function updateLightboxImage() {
+        if (!lightbox || !lightboxImg) return;
+        lightboxImg.src = slides[currentIndex].src;
+        lightboxImg.alt = slides[currentIndex].alt || "";
+    }
+
     function update() {
         const offset = -currentIndex * 100;
         track.style.transform = `translateX(${offset}%)`;
 
-        const dotsContainer = root.querySelector("[data-carousel-dots]");
-        if (dotsContainer) {
-            dotsContainer.querySelectorAll("button").forEach((dot, idx) => {
-                dot.classList.toggle("is-active", idx === currentIndex);
+        if (thumbsContainer) {
+            thumbsContainer.querySelectorAll(".carousel-thumb").forEach((thumb, idx) => {
+                thumb.classList.toggle("is-active", idx === currentIndex);
+                if (idx === currentIndex) {
+                    thumb.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                }
             });
         }
+
+        updateLightboxImage();
     }
 
     // Кнопки
@@ -180,19 +218,38 @@ function initCarousel(root) {
         });
     }
 
-    // Точки
-    const dotsContainer = root.querySelector("[data-carousel-dots]");
-    if (dotsContainer) {
-        dotsContainer.innerHTML = "";
-        slides.forEach((_, idx) => {
-            const dot = document.createElement("button");
-            if (idx === 0) dot.classList.add("is-active");
-            dot.addEventListener("click", () => {
-                currentIndex = idx;
-                update();
-                trackAction("carousel_dot", { index: currentIndex, listing_id: listingId });
-            });
-            dotsContainer.appendChild(dot);
+    renderThumbnails();
+
+    // Фуллскрин
+    const openFullscreen = root.querySelector("[data-carousel-fullscreen-open]");
+    if (openFullscreen && lightbox && lightboxImg) {
+        const closeButtons = root.querySelectorAll("[data-carousel-fullscreen-close]");
+
+        const close = () => {
+            lightbox.hidden = true;
+            document.body.classList.remove("no-scroll");
+            trackAction("carousel_fullscreen_close", { index: currentIndex });
+        };
+
+        openFullscreen.addEventListener("click", () => {
+            updateLightboxImage();
+            lightbox.hidden = false;
+            document.body.classList.add("no-scroll");
+            trackAction("carousel_fullscreen_open", { index: currentIndex });
+        });
+
+        closeButtons.forEach((btn) => {
+            btn.addEventListener("click", close);
+        });
+
+        lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox) close();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && !lightbox.hidden) {
+                close();
+            }
         });
     }
 
