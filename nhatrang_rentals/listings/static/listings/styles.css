@@ -62,6 +62,12 @@ a:hover {
     padding: 14px 0;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .logo {
     display: inline-flex;
     align-items: center;
@@ -254,6 +260,15 @@ a:hover {
     gap: 18px;
 }
 
+.favorites-empty {
+    margin: 14px 0 0;
+    padding: 14px 16px;
+    border-radius: var(--radius-lg);
+    border: 1px dashed rgba(56, 189, 248, 0.4);
+    background: rgba(56, 189, 248, 0.08);
+    color: var(--text-muted);
+}
+
 .listing-card {
     background: radial-gradient(circle at top, #020617, #000);
     border-radius: var(--radius-lg);
@@ -381,6 +396,10 @@ a:hover {
     margin-top: 4px;
 }
 
+.listing-card.is-hidden-by-favorites {
+    display: none;
+}
+
 .tag-pill {
     display: inline-flex;
     align-items: center;
@@ -434,6 +453,36 @@ a:hover {
 
 .favorite-btn.is-favorite .favorite-icon {
     content: "★";
+}
+
+.favorite-btn--header {
+    padding: 8px 12px;
+    font-size: 14px;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.85);
+    border-color: rgba(56, 189, 248, 0.5);
+    color: var(--text-main);
+}
+
+.favorite-btn--header:hover {
+    background: rgba(56, 189, 248, 0.12);
+    color: #e0f2fe;
+    border-color: #38bdf8;
+}
+
+.favorite-btn--header .favorite-icon {
+    font-size: 18px;
+}
+
+.favorite-btn--header.is-favorite {
+    background: radial-gradient(circle at top left, #38bdf8, #0ea5e9);
+    color: #0b1220;
+    border-color: #38bdf8;
+    box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+}
+
+.favorite-btn--header.is-favorite:hover {
+    background: radial-gradient(circle at top left, #0ea5e9, #38bdf8);
 }
 
 /* Detail page */

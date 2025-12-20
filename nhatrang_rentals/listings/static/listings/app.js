@@ -54,6 +54,10 @@ function trackAction(actionType, details = {}) {
 // ======= Фавориты в localStorage =======
 
 const FAVORITES_KEY = "nhatrang_favorites";
+const FAVORITES_FILTER_KEY = "nhatrang_favorites_filter";
+
+let favoriteFilterEnabled = false;
+let favoritesToggleBtn = null;
 
 function readFavorites() {
     try {
@@ -70,6 +74,26 @@ function readFavorites() {
 function writeFavorites(ids) {
     try {
         localStorage.setItem(FAVORITES_KEY, JSON.stringify(ids));
+    } catch (e) {
+        // ignore
+    }
+}
+
+function readFavoriteFilterState() {
+    try {
+        return localStorage.getItem(FAVORITES_FILTER_KEY) === "1";
+    } catch (e) {
+        return false;
+    }
+}
+
+function writeFavoriteFilterState(enabled) {
+    try {
+        if (enabled) {
+            localStorage.setItem(FAVORITES_FILTER_KEY, "1");
+        } else {
+            localStorage.removeItem(FAVORITES_FILTER_KEY);
+        }
     } catch (e) {
         // ignore
     }
@@ -95,6 +119,50 @@ function toggleFavorite(id) {
     }
     trackAction(action, { listing_id: strId });
     updateFavoriteButtonsState();
+    applyFavoritesFilter();
+}
+
+function updateFavoritesToggleUI() {
+    if (!favoritesToggleBtn) return;
+
+    favoritesToggleBtn.classList.toggle("is-favorite", favoriteFilterEnabled);
+    favoritesToggleBtn.setAttribute("aria-pressed", favoriteFilterEnabled ? "true" : "false");
+
+    const icon = favoritesToggleBtn.querySelector(".favorite-icon");
+    const textSpan = favoritesToggleBtn.querySelector(".favorite-text");
+
+    if (icon) {
+        icon.textContent = favoriteFilterEnabled ? "★" : "☆";
+    }
+
+    if (textSpan) {
+        textSpan.textContent = "Избранное";
+    }
+}
+
+function applyFavoritesFilter() {
+    const cards = document.querySelectorAll(".listing-card[data-listing-id]");
+    if (!cards.length) return;
+
+    const favoritesSet = new Set(readFavorites().map(String));
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+        const id = card.getAttribute("data-listing-id");
+        const isFav = favoritesSet.has(String(id));
+        const shouldShow = !favoriteFilterEnabled || isFav;
+
+        card.classList.toggle("is-hidden-by-favorites", !shouldShow);
+        if (shouldShow) {
+            visibleCount += 1;
+        }
+    });
+
+    const emptyState = document.getElementById("favorites-empty-state");
+    if (emptyState) {
+        const showEmpty = favoriteFilterEnabled && visibleCount === 0;
+        emptyState.hidden = !showEmpty;
+    }
 }
 
 // Обновление всех кнопок на странице
@@ -267,6 +335,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Фавориты
     updateFavoriteButtonsState();
+
+    favoriteFilterEnabled = readFavoriteFilterState();
+    favoritesToggleBtn = document.getElementById("favorites-toggle");
+
+    if (favoritesToggleBtn) {
+        favoritesToggleBtn.addEventListener("click", () => {
+            favoriteFilterEnabled = !favoriteFilterEnabled;
+            writeFavoriteFilterState(favoriteFilterEnabled);
+            updateFavoritesToggleUI();
+            applyFavoritesFilter();
+            trackAction("favorites_filter_toggle", { enabled: favoriteFilterEnabled });
+        });
+
+        updateFavoritesToggleUI();
+    }
+
+    applyFavoritesFilter();
 
     document.body.addEventListener("click", (e) => {
         const btn = e.target.closest(".favorite-btn");
