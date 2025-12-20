@@ -97,6 +97,53 @@ function toggleFavorite(id) {
     updateFavoriteButtonsState();
 }
 
+function updateFavoritesPageState() {
+    const page = document.querySelector("[data-favorites-page]");
+    if (!page) return;
+
+    const favoriteIds = readFavorites().map(String);
+    const favoriteSet = new Set(favoriteIds);
+
+    const grid = page.querySelector("[data-favorites-grid]");
+    const emptyState = page.querySelector("[data-empty-state]");
+    const counter = page.querySelector("[data-favorites-count]");
+
+    let visibleCount = 0;
+
+    if (grid) {
+        const cards = Array.from(grid.querySelectorAll("[data-listing-id]"));
+
+        cards.forEach((card) => {
+            const id = card.getAttribute("data-listing-id");
+            const isFavorite = favoriteSet.has(String(id));
+            card.hidden = !isFavorite;
+            if (isFavorite) visibleCount += 1;
+        });
+
+        if (visibleCount) {
+            const order = new Map(favoriteIds.map((value, index) => [value, index]));
+            cards
+                .filter((card) => !card.hidden)
+                .sort(
+                    (a, b) => order.get(String(a.dataset.listingId)) - order.get(String(b.dataset.listingId))
+                )
+                .forEach((card) => grid.appendChild(card));
+        }
+    }
+
+    if (counter) {
+        counter.textContent = visibleCount;
+    }
+
+    if (emptyState) {
+        emptyState.hidden = visibleCount !== 0;
+    }
+
+    if (grid) {
+        grid.hidden = visibleCount === 0;
+    }
+}
+
 // Обновление всех кнопок на странице
 function updateFavoriteButtonsState() {
     const ids = readFavorites();
@@ -135,6 +182,8 @@ function updateFavoriteButtonsState() {
             if (textSpan) textSpan.textContent = isFav ? "В избранном" : "В избранное";
         }
     }
+
+    updateFavoritesPageState();
 }
 
 // ======= Карусель фото на странице детали =======
@@ -267,6 +316,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Фавориты
     updateFavoriteButtonsState();
+
+    const favoritesLink = document.querySelector(".header-favorites-link");
+    if (favoritesLink) {
+        favoritesLink.addEventListener("click", (event) => {
+            const ids = readFavorites();
+            if (!Array.isArray(ids) || ids.length === 0) {
+                return; // идём по обычной ссылке, если нет сохранённых
+            }
+
+            event.preventDefault();
+            const target = new URL(favoritesLink.href, window.location.origin);
+            target.searchParams.set("ids", ids.join(","));
+            window.location.href = target.toString();
+        });
+    }
 
     document.body.addEventListener("click", (e) => {
         const btn = e.target.closest(".favorite-btn");

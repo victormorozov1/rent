@@ -1,3 +1,4 @@
+from django.db.models import Case, When
 from django.shortcuts import render, get_object_or_404
 from .models import Listing, Tag
 
@@ -50,3 +51,38 @@ def listing_list(request):
 def listing_detail(request, pk):
     listing = get_object_or_404(Listing.objects.prefetch_related("photos", "tags"), pk=pk)
     return render(request, "listings/listing_detail.html", {"listing": listing})
+
+
+def favorites(request):
+    ids_param = request.GET.get("ids", "")
+
+    listings = Listing.objects.all().prefetch_related("tags", "photos").order_by("-created_at")
+
+    if ids_param:
+        raw_ids = [value.strip() for value in ids_param.split(",") if value.strip()]
+        favorite_ids = []
+
+        for raw_id in raw_ids:
+            try:
+                favorite_ids.append(int(raw_id))
+            except ValueError:
+                continue
+
+        if favorite_ids:
+            order_preserved = Case(*[When(id=pk, then=pos) for pos, pk in enumerate(favorite_ids)])
+            listings = (
+                Listing.objects.filter(id__in=favorite_ids)
+                .prefetch_related("tags", "photos")
+                .order_by(order_preserved)
+            )
+        else:
+            listings = Listing.objects.none()
+
+    return render(
+        request,
+        "listings/favorites.html",
+        {
+            "listings": listings,
+            "is_favorites_page": True,
+        },
+    )
