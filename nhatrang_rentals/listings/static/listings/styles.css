@@ -86,56 +86,6 @@ a:hover {
     padding: 24px 0 40px;
 }
 
-.hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-    gap: 20px;
-    align-items: center;
-    margin-bottom: 26px;
-}
-
-.hero-copy {
-    background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(8, 47, 73, 0.05)),
-                radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.18), rgba(2, 6, 23, 0.9));
-    border: 1px solid rgba(148, 163, 184, 0.3);
-    border-radius: var(--radius-xl);
-    padding: 20px 22px;
-    box-shadow: var(--shadow-soft);
-}
-
-.hero-copy h2 {
-    font-size: clamp(24px, 4vw, 30px);
-    margin: 6px 0 10px;
-}
-
-.hero-copy p {
-    margin: 0 0 14px;
-    color: var(--text-muted);
-    line-height: 1.6;
-}
-
-.hero-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 12px;
-    color: #a5f3fc;
-    margin: 0;
-}
-
-.hero-carousel-card {
-    background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), rgba(2, 6, 23, 0.92));
-    border: 1px solid rgba(148, 163, 184, 0.3);
-    border-radius: var(--radius-xl);
-    padding: 12px;
-    box-shadow: var(--shadow-soft);
-}
-
 .site-footer {
     border-top: 1px solid rgba(148, 163, 184, 0.3);
     padding: 16px 0 20px;
@@ -302,6 +252,15 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 18px;
+}
+
+.cards-grid--carousel {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.listings-carousel {
+    position: relative;
+    margin-top: 18px;
 }
 
 .listing-card {
@@ -548,11 +507,21 @@ a:hover {
     aspect-ratio: 4 / 3;
 }
 
+.carousel-viewport--cards {
+    aspect-ratio: auto;
+    border: none;
+    background: transparent;
+}
+
 .carousel-track {
     display: flex;
     width: 100%;
     height: 100%;
     transition: transform 250ms ease-out;
+}
+
+.carousel-viewport--cards .carousel-track {
+    height: auto;
 }
 
 .carousel-slide {
@@ -562,6 +531,15 @@ a:hover {
     object-fit: cover;
     position: relative;
     overflow: hidden;
+}
+
+.carousel-viewport--cards .carousel-slide {
+    height: auto;
+    overflow: visible;
+}
+
+.listings-slide {
+    padding: 2px;
 }
 
 .carousel-empty {
