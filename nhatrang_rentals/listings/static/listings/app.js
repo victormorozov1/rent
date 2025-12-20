@@ -193,22 +193,24 @@ function updateFavoriteButtonsState() {
     const detailLayout = document.querySelector(".detail-layout");
     if (detailLayout) {
         const listingId = detailLayout.getAttribute("data-listing-id");
-        const btn = detailLayout.querySelector(".favorite-btn");
-        if (btn) {
-            if (btn.hasAttribute("data-open-favorites-list")) {
-                const icon = btn.querySelector(".favorite-icon");
-                const textSpan = btn.querySelector(".favorite-text");
-                if (icon) icon.textContent = "★";
-                if (textSpan) textSpan.textContent = "Избранное";
-                return;
-            }
-            const isFav = set.has(String(listingId));
-            btn.classList.toggle("is-favorite", isFav);
+        detailLayout.querySelectorAll(".favorite-btn").forEach((btn) => {
             const icon = btn.querySelector(".favorite-icon");
             const textSpan = btn.querySelector(".favorite-text");
+
+            if (btn.hasAttribute("data-open-favorites-list")) {
+                if (icon) icon.textContent = "★";
+                if (textSpan) textSpan.textContent = "Избранное";
+                btn.classList.remove("is-favorite");
+                return;
+            }
+
+            if (!listingId) return;
+
+            const isFav = set.has(String(listingId));
+            btn.classList.toggle("is-favorite", isFav);
             if (icon) icon.textContent = isFav ? "★" : "☆";
             if (textSpan) textSpan.textContent = isFav ? "В избранном" : "В избранное";
-        }
+        });
     }
 }
 

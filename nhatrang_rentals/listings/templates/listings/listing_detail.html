@@ -70,11 +70,18 @@
                 <p>{{ listing.description|linebreaksbr }}</p>
             </div>
 
-            <button id="telegram-button"
-                    type="button"
-                    class="btn-primary btn-full">
-                💬 Связаться в Telegram
-            </button>
+            <div class="detail-actions">
+                <button class="favorite-btn favorite-btn--cta" type="button">
+                    <span class="favorite-icon">☆</span>
+                    <span class="favorite-text">В избранное</span>
+                </button>
+
+                <button id="telegram-button"
+                        type="button"
+                        class="btn-primary btn-full">
+                    💬 Связаться в Telegram
+                </button>
+            </div>
         </div>
     </div>
 </section>

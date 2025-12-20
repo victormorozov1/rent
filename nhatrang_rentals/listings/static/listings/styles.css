@@ -564,6 +564,20 @@ a:hover {
     font-size: 16px;
 }
 
+.detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.favorite-btn--cta {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 15px;
+}
+
 /* Carousel */
 
 .carousel {
