@@ -15,9 +15,9 @@
             <span class="logo-text">Нячанг&nbsp;— аренда жилья</span>
         </a>
         <div class="header-actions">
-            {% with is_favorites_page=request.resolver_match.url_name == 'favorites' %}
+            {% with current_url_name=request.resolver_match.url_name %}
                 <a href="{% url 'listings:favorites' %}"
-                   class="header-favorites-link{% if is_favorites_page %} is-active{% endif %}">
+                   class="header-favorites-link{% if current_url_name == 'favorites' %} is-active{% endif %}">
                     <span class="favorite-icon">★</span>
                     <span class="header-favorites-text">Избранное</span>
                 </a>
