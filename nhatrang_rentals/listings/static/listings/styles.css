@@ -157,18 +157,6 @@ a:hover {
     margin: 6px 0 0;
 }
 
-.favorites-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border-radius: 14px;
-    background: rgba(56, 189, 248, 0.12);
-    border: 1px solid rgba(56, 189, 248, 0.4);
-    box-shadow: 0 12px 24px rgba(56, 189, 248, 0.12);
-    font-weight: 600;
-}
-
 .eyebrow {
     font-size: 12px;
     letter-spacing: 0.08em;
