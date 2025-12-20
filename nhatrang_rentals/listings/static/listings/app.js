@@ -146,6 +146,7 @@ function initCarousel(root) {
     if (!slides.length) return;
 
     let currentIndex = 0;
+    const listingId = root.closest("[data-listing-id]")?.getAttribute("data-listing-id") || null;
 
     const thumbsContainer = root.querySelector("[data-carousel-thumbs]");
     const lightbox = root.querySelector("[data-carousel-lightbox]");
@@ -205,7 +206,7 @@ function initCarousel(root) {
         prevBtn.addEventListener("click", () => {
             currentIndex = (currentIndex - 1 + slides.length) % slides.length;
             update();
-            trackAction("carousel_prev", { index: currentIndex });
+            trackAction("carousel_prev", { index: currentIndex, listing_id: listingId });
         });
     }
 
@@ -213,7 +214,7 @@ function initCarousel(root) {
         nextBtn.addEventListener("click", () => {
             currentIndex = (currentIndex + 1) % slides.length;
             update();
-            trackAction("carousel_next", { index: currentIndex });
+            trackAction("carousel_next", { index: currentIndex, listing_id: listingId });
         });
     }
 
@@ -315,8 +316,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Карусель
-    const carousel = document.querySelector("[data-carousel]");
-    if (carousel) {
-        initCarousel(carousel);
-    }
+    document.querySelectorAll("[data-carousel]").forEach((carousel) => initCarousel(carousel));
 });
