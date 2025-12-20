@@ -60,7 +60,9 @@ function readFavorites() {
         const raw = localStorage.getItem(FAVORITES_KEY);
         if (!raw) return [];
         const ids = JSON.parse(raw);
-        if (Array.isArray(ids)) return ids;
+        if (Array.isArray(ids)) {
+            return ids.map((id) => String(id));
+        }
         return [];
     } catch (e) {
         return [];
