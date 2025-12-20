@@ -35,7 +35,7 @@ a {
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 /* Layout */
@@ -443,7 +443,7 @@ a:hover {
 }
 
 .listing-title a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .listing-price {
