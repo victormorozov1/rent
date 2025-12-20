@@ -14,6 +14,14 @@
             <span class="logo-icon">🏝️</span>
             <span class="logo-text">Нячанг&nbsp;— аренда жилья</span>
         </a>
+        <div class="header-actions">
+            <a href="{% url 'listings:listing_list' %}?favorites=1"
+               class="favorite-btn favorite-btn--header"
+               data-favorites-nav>
+                <span class="favorite-icon">☆</span>
+                <span class="favorite-text">Избранное</span>
+            </a>
+        </div>
     </div>
 </header>
 

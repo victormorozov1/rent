@@ -62,6 +62,12 @@ a:hover {
     padding: 14px 0;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .logo {
     display: inline-flex;
     align-items: center;
@@ -434,6 +440,39 @@ a:hover {
 
 .favorite-btn.is-favorite .favorite-icon {
     content: "★";
+}
+
+.favorite-btn--header {
+    padding: 8px 14px;
+    font-weight: 600;
+    border-width: 1.5px;
+}
+
+.favorite-btn--header.is-favorite {
+    box-shadow: 0 16px 30px rgba(234, 179, 8, 0.35);
+}
+
+.favorites-empty {
+    margin-bottom: 18px;
+}
+
+.favorites-empty-card {
+    border-radius: var(--radius-xl);
+    border: 1px dashed rgba(148, 163, 184, 0.4);
+    background: rgba(15, 23, 42, 0.6);
+    padding: 18px;
+    text-align: center;
+    color: var(--text-muted);
+    box-shadow: var(--shadow-soft);
+}
+
+.favorites-empty-card h2 {
+    margin: 0 0 8px;
+    color: var(--text-main);
+}
+
+.favorites-empty-card p {
+    margin: 0 0 16px;
 }
 
 /* Detail page */

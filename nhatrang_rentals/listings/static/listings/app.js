@@ -54,6 +54,7 @@ function trackAction(actionType, details = {}) {
 // ======= Фавориты в localStorage =======
 
 const FAVORITES_KEY = "nhatrang_favorites";
+let IS_FAVORITES_VIEW = false;
 
 function readFavorites() {
     try {
@@ -134,6 +135,47 @@ function updateFavoriteButtonsState() {
             if (icon) icon.textContent = isFav ? "★" : "☆";
             if (textSpan) textSpan.textContent = isFav ? "В избранном" : "В избранное";
         }
+    }
+
+    const navFavoritesBtn = document.querySelector("[data-favorites-nav]");
+    if (navFavoritesBtn) {
+        const icon = navFavoritesBtn.querySelector(".favorite-icon");
+        const textSpan = navFavoritesBtn.querySelector(".favorite-text");
+        const hasFavorites = ids.length > 0;
+        navFavoritesBtn.classList.toggle("is-favorite", hasFavorites);
+        if (icon) icon.textContent = hasFavorites ? "★" : "☆";
+        if (textSpan) {
+            textSpan.textContent = hasFavorites
+                ? `Избранное (${ids.length})`
+                : "Избранное";
+        }
+    }
+
+    applyFavoritesFilterIfNeeded();
+}
+
+function applyFavoritesFilterIfNeeded() {
+    if (!IS_FAVORITES_VIEW) return;
+
+    const favoriteIds = new Set(readFavorites());
+    const cards = Array.from(document.querySelectorAll("[data-listing-id]"));
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+        const id = card.getAttribute("data-listing-id");
+        const isFav = favoriteIds.has(String(id));
+        card.style.display = isFav ? "" : "none";
+        if (isFav) visibleCount += 1;
+    });
+
+    const emptyState = document.querySelector("[data-favorites-empty]");
+    if (emptyState) {
+        emptyState.hidden = visibleCount !== 0;
+    }
+
+    const filters = document.querySelector("[data-filters]");
+    if (filters) {
+        filters.hidden = true;
     }
 }
 
@@ -259,6 +301,8 @@ function initCarousel(root) {
 // ======= Инициализация на DOMContentLoaded =======
 
 document.addEventListener("DOMContentLoaded", () => {
+    IS_FAVORITES_VIEW = new URLSearchParams(window.location.search).get("favorites") === "1";
+
     // Трекинг открытия страницы
     trackAction("page_view", {
         path: window.location.pathname,

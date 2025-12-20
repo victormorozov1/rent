@@ -4,11 +4,16 @@
 
 {% block content %}
 <section class="page-header">
-    <h1>Аренда квартир в Нячанге</h1>
-    <p>Выберите уютную квартиру у моря. Без регистрации, просто свяжитесь через Telegram.</p>
+    {% if favorites_only %}
+        <h1>Избранные квартиры</h1>
+        <p>Собранные вами варианты в одном месте. Измените список в любой момент.</p>
+    {% else %}
+        <h1>Аренда квартир в Нячанге</h1>
+        <p>Выберите уютную квартиру у моря. Без регистрации, просто свяжитесь через Telegram.</p>
+    {% endif %}
 </section>
 
-<section class="filters-card">
+<section class="filters-card" data-filters>
     <form id="filter-form" method="get" class="filters-form">
         <div class="filters-row">
             <div class="filter-group">
@@ -49,6 +54,14 @@
             <a href="{% url 'listings:listing_list' %}" class="btn-ghost">Сбросить</a>
         </div>
     </form>
+</section>
+
+<section class="favorites-empty" data-favorites-empty hidden>
+    <div class="favorites-empty-card">
+        <h2>В избранном пока пусто</h2>
+        <p>Добавляйте квартиры через кнопку со звездочкой на карточках — они появятся здесь.</p>
+        <a href="{% url 'listings:listing_list' %}" class="btn-primary">Перейти ко всем объявлениям</a>
+    </div>
 </section>
 
 <section class="cards-grid">

@@ -3,6 +3,7 @@ from .models import Listing, Tag
 
 def listing_list(request):
     qs = Listing.objects.all().prefetch_related("tags", "photos")
+    favorites_only = request.GET.get("favorites") == "1"
 
     # Фильтр по цене
     price_min = request.GET.get("price_min")
@@ -43,6 +44,7 @@ def listing_list(request):
         "price_min": price_min or "",
         "price_max": price_max or "",
         "sort": sort or "",
+        "favorites_only": favorites_only,
     }
     return render(request, "listings/listing_list.html", context)
 
