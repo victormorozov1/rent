@@ -12,12 +12,12 @@
     <form id="filter-form" method="get" class="filters-form">
         <div class="filters-row">
             <div class="filter-group">
-                <label for="price_min">Цена от (USD)</label>
-                <input type="number" step="10" name="price_min" id="price_min" value="{{ price_min }}" placeholder="0">
+                <label for="price_min">Цена от (₽)</label>
+                <input type="number" step="1000" name="price_min" id="price_min" value="{{ price_min }}" placeholder="0">
             </div>
             <div class="filter-group">
-                <label for="price_max">Цена до (USD)</label>
-                <input type="number" step="10" name="price_max" id="price_max" value="{{ price_max }}" placeholder="2000">
+                <label for="price_max">Цена до (₽)</label>
+                <input type="number" step="1000" name="price_max" id="price_max" value="{{ price_max }}" placeholder="200000">
             </div>
             <div class="filter-group">
                 <span class="filter-label">Тег</span>
@@ -81,7 +81,7 @@
                             <span class="favorite-icon">☆</span>
                         </button>
                     </div>
-                    <p class="listing-price">{{ listing.price_per_month }} $ / месяц</p>
+                    <p class="listing-price">{{ listing.price_per_month }} ₽ / месяц</p>
                     <p class="listing-address">{{ listing.address }}</p>
                     <div class="listing-tags">
                         {% for tag in listing.tags.all %}

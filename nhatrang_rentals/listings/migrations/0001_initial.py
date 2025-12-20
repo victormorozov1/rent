@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=200, verbose_name='Название')),
                 ('description', models.TextField(verbose_name='Описание')),
-                ('price_per_month', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Цена в месяц (USD)')),
+                ('price_per_month', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Цена в месяц (₽)')),
                 ('address', models.CharField(max_length=255, verbose_name='Адрес')),
                 ('telegram_url', models.URLField(help_text='Например: https://t.me/username', verbose_name='Ссылка на Telegram')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
