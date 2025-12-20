@@ -829,8 +829,8 @@ a:hover {
 
 .carousel-lightbox-content {
     position: relative;
-    max-width: min(1080px, 95vw);
-    max-height: min(720px, 90vh);
+    max-width: min(1280px, 98vw);
+    max-height: min(880px, 95vh);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
