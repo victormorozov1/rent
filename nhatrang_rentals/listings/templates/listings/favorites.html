@@ -1,0 +1,83 @@
+{% extends "listings/base.html" %}
+
+{% block title %}Избранные объявления — аренда в Нячанге{% endblock %}
+
+{% block content %}
+<section class="page-header favorites-header">
+    <div>
+        <p class="eyebrow">Подборка</p>
+        <h1>Избранные объявления</h1>
+        <p class="favorites-subtitle">Сохраняйте квартиры, чтобы быстро вернуться к ним позже.</p>
+    </div>
+    <div class="favorites-pill">
+        <span class="favorite-icon">★</span>
+        <span>В избранном: <span data-favorites-count>0</span></span>
+    </div>
+</section>
+
+<section class="favorites-grid" data-favorites-page>
+    <div class="cards-grid" data-favorites-grid>
+        {% for listing in listings %}
+            <article class="listing-card" data-listing-id="{{ listing.id }}">
+                {% with photos=listing.photos.all %}
+                    <div class="listing-thumb">
+                        <div class="carousel carousel--card" data-carousel>
+                            <a href="{% url 'listings:listing_detail' listing.id %}" class="carousel-viewport">
+                                <div class="carousel-track">
+                                    {% if photos %}
+                                        {% for photo in photos %}
+                                            <img src="{{ photo.image.url }}"
+                                                 alt="{{ listing.title }} фото {{ forloop.counter }}"
+                                                 class="carousel-slide">
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="carousel-slide listing-thumb-placeholder">
+                                            <span>Нет фото</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% if photos %}
+                                <button class="carousel-btn carousel-btn-prev" type="button" data-carousel-prev>‹</button>
+                                <button class="carousel-btn carousel-btn-next" type="button" data-carousel-next>›</button>
+                                <div class="carousel-dots" data-carousel-dots></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endwith %}
+                <div class="listing-body">
+                    <div class="listing-header">
+                        <h2 class="listing-title">
+                            <a href="{% url 'listings:listing_detail' listing.id %}">
+                                {{ listing.title }}
+                            </a>
+                        </h2>
+                        <button class="favorite-btn" type="button">
+                            <span class="favorite-icon">☆</span>
+                        </button>
+                    </div>
+                    <p class="listing-price">{{ listing.price_per_month }} ₽ / месяц</p>
+                    <p class="listing-address">{{ listing.address }}</p>
+                    <div class="listing-tags">
+                        {% for tag in listing.tags.all %}
+                            <span class="tag-pill" style="--tag-color: {{ tag.color }}">
+                                <span class="tag-pill-icon">{{ tag.icon }}</span>
+                                {{ tag.name }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+
+    <div class="empty-state" data-empty-state hidden>
+        <div class="empty-state-inner">
+            <p class="eyebrow">Избранное пусто</p>
+            <h2>Сохраняйте квартиры звёздочкой</h2>
+            <p>Нажмите на ☆ в карточке или на странице объявления, и оно появится здесь.</p>
+            <a class="btn-primary" href="{% url 'listings:listing_list' %}">Перейти к каталогу</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
