@@ -13,6 +13,15 @@
 </section>
 
 <section class="favorites-grid" data-favorites-page>
+    <div class="empty-state" data-empty-state hidden>
+        <div class="empty-state-inner">
+            <p class="eyebrow">Избранное пусто</p>
+            <h2>Сохраняйте квартиры звёздочкой</h2>
+            <p>Нажмите на ☆ в карточке или на странице объявления, и оно появится здесь.</p>
+            <a class="btn-primary" href="{% url 'listings:listing_list' %}">Перейти к каталогу</a>
+        </div>
+    </div>
+
     <div class="cards-grid" data-favorites-grid>
         {% for listing in listings %}
             <article class="listing-card" data-listing-id="{{ listing.id }}">
@@ -66,15 +75,6 @@
                 </div>
             </article>
         {% endfor %}
-    </div>
-
-    <div class="empty-state" data-empty-state hidden>
-        <div class="empty-state-inner">
-            <p class="eyebrow">Избранное пусто</p>
-            <h2>Сохраняйте квартиры звёздочкой</h2>
-            <p>Нажмите на ☆ в карточке или на странице объявления, и оно появится здесь.</p>
-            <a class="btn-primary" href="{% url 'listings:listing_list' %}">Перейти к каталогу</a>
-        </div>
     </div>
 </section>
 {% endblock %}
