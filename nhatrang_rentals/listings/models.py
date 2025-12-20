@@ -27,7 +27,7 @@ class Listing(models.Model):
     title = models.CharField("Название", max_length=200)
     description = models.TextField("Описание")
     price_per_month = models.DecimalField(
-        "Цена в месяц (USD)",
+        "Цена в месяц (₽)",
         max_digits=10,
         decimal_places=2,
     )
