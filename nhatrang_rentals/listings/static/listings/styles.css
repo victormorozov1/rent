@@ -916,6 +916,12 @@ a:hover {
     transition: background var(--transition-fast), transform var(--transition-fast);
 }
 
+@media (max-width: 768px) {
+    .carousel-fullscreen-btn {
+        display: none;
+    }
+}
+
 .carousel-fullscreen-btn:hover {
     background: rgba(15, 23, 42, 1);
     transform: translateY(-1px);

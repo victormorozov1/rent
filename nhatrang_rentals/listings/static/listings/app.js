@@ -273,6 +273,14 @@ function initCarousel(root) {
     const openFullscreen = root.querySelector("[data-carousel-fullscreen-open]");
     if (openFullscreen && lightbox && lightboxImg) {
         const closeButtons = root.querySelectorAll("[data-carousel-fullscreen-close]");
+        const mobileViewport = window.matchMedia("(max-width: 768px)");
+
+        const open = () => {
+            updateLightboxImage();
+            lightbox.hidden = false;
+            document.body.classList.add("no-scroll");
+            trackAction("carousel_fullscreen_open", { index: currentIndex });
+        };
 
         const close = () => {
             lightbox.hidden = true;
@@ -280,11 +288,14 @@ function initCarousel(root) {
             trackAction("carousel_fullscreen_close", { index: currentIndex });
         };
 
-        openFullscreen.addEventListener("click", () => {
-            updateLightboxImage();
-            lightbox.hidden = false;
-            document.body.classList.add("no-scroll");
-            trackAction("carousel_fullscreen_open", { index: currentIndex });
+        openFullscreen.addEventListener("click", open);
+
+        slides.forEach((slide) => {
+            slide.addEventListener("click", () => {
+                if (mobileViewport.matches) {
+                    open();
+                }
+            });
         });
 
         closeButtons.forEach((btn) => {
