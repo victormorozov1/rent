@@ -1001,6 +1001,23 @@ body.no-scroll {
 }
 
 @media (max-width: 640px) {
+    .site-header .logo {
+        display: none;
+    }
+
+    .header-inner {
+        justify-content: flex-end;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .header-favorites-link {
+        padding: 11px 16px;
+    }
+
     .filters-row {
         grid-template-columns: minmax(0, 1fr);
     }
