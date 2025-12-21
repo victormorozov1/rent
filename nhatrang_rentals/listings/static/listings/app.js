@@ -349,6 +349,41 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleFavorite(listingId);
     });
 
+    const feedbackForm = document.querySelector("[data-feedback-form]");
+    if (feedbackForm) {
+        const note = feedbackForm.querySelector("[data-feedback-note]");
+        const defaultNote = note ? note.textContent : "";
+
+        feedbackForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(feedbackForm);
+            const name = formData.get("name")?.toString().trim() || "";
+            const contact = formData.get("contact")?.toString().trim() || "";
+            const message = formData.get("message")?.toString().trim() || "";
+
+            trackAction("feedback_submit", {
+                name,
+                contact,
+                message_length: message.length,
+            });
+
+            feedbackForm.reset();
+
+            if (note) {
+                note.textContent = "Спасибо! Мы свяжемся с вами в ближайшее время.";
+                note.classList.add("is-success");
+            }
+        });
+
+        feedbackForm.addEventListener("input", () => {
+            if (note) {
+                note.textContent = defaultNote;
+                note.classList.remove("is-success");
+            }
+        });
+    }
+
     // Фильтры — отправка формы
     const filterForm = document.getElementById("filter-form");
     if (filterForm) {
