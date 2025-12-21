@@ -1031,6 +1031,10 @@ body.no-scroll {
         align-items: flex-start;
     }
 
+    .favorites-back-link {
+        margin-bottom: 12px;
+    }
+
     .feedback-card {
         padding: 18px;
     }
