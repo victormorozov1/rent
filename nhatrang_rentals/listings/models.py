@@ -1,5 +1,23 @@
 from django.db import models
 
+
+class FeedbackRequest(models.Model):
+    """Запрос, отправленный через форму обратной связи."""
+
+    name = models.CharField("Имя", max_length=200)
+    contact = models.CharField("Контакты", max_length=200)
+    message = models.TextField("Сообщение")
+    user_id = models.CharField("Анонимный пользователь", max_length=64, blank=True, null=True)
+    created_at = models.DateTimeField("Создано", auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Запрос обратной связи"
+        verbose_name_plural = "Запросы обратной связи"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.name} ({self.contact})"
+
 class Tag(models.Model):
     """
     Справочник тегов, чтобы админ мог менять цвет/иконку при желании.

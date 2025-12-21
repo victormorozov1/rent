@@ -32,6 +32,39 @@
     </div>
 </main>
 
+<section class="feedback-section" id="feedback">
+    <div class="container">
+        <div class="feedback-card">
+            <div class="feedback-copy">
+                <p class="eyebrow">Обратная связь</p>
+                <h2>Есть вопросы или предложения?</h2>
+                <p>Оставьте контакты и пару слов — ответим в течение дня и поможем с арендой.</p>
+            </div>
+            <form class="feedback-form" data-feedback-form data-feedback-endpoint="{% url 'listings:feedback_submit' %}">
+                {% csrf_token %}
+                <div class="feedback-grid">
+                    <label class="feedback-field">
+                        <span>Имя</span>
+                        <input type="text" name="name" placeholder="Как к вам обращаться" required>
+                    </label>
+                    <label class="feedback-field">
+                        <span>Email или Telegram</span>
+                        <input type="text" name="contact" placeholder="@username или почта" required>
+                    </label>
+                </div>
+                <label class="feedback-field">
+                    <span>Сообщение</span>
+                    <textarea name="message" rows="3" placeholder="Опишите запрос или пожелания" required></textarea>
+                </label>
+                <div class="feedback-actions">
+                    <button type="submit" class="feedback-submit">Отправить</button>
+                    <p class="feedback-note" data-feedback-note>Мы не передаём данные третьим лицам.</p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
 <footer class="site-footer">
     <div class="container footer-inner">
         <p>Нячанг · Уютные квартиры у моря без регистрации · {{ now|date:"Y" }}</p>
