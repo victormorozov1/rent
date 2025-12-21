@@ -40,7 +40,8 @@
                 <h2>Есть вопросы или предложения?</h2>
                 <p>Оставьте контакты и пару слов — ответим в течение дня и поможем с арендой.</p>
             </div>
-            <form class="feedback-form" data-feedback-form>
+            <form class="feedback-form" data-feedback-form data-feedback-endpoint="{% url 'listings:feedback_submit' %}">
+                {% csrf_token %}
                 <div class="feedback-grid">
                     <label class="feedback-field">
                         <span>Имя</span>

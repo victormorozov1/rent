@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Listing, ListingPhoto, Tag
+from .models import FeedbackRequest, Listing, ListingPhoto, Tag
 
 class ListingPhotoInline(admin.TabularInline):
     model = ListingPhoto
@@ -18,3 +18,10 @@ class ListingAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ("name", "slug", "color", "icon")
     prepopulated_fields = {"slug": ("name",)}
+
+
+@admin.register(FeedbackRequest)
+class FeedbackRequestAdmin(admin.ModelAdmin):
+    list_display = ("name", "contact", "created_at")
+    search_fields = ("name", "contact", "message")
+    readonly_fields = ("created_at",)

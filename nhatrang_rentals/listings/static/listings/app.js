@@ -353,6 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (feedbackForm) {
         const note = feedbackForm.querySelector("[data-feedback-note]");
         const defaultNote = note ? note.textContent : "";
+        const endpoint = feedbackForm.dataset.feedbackEndpoint;
 
         feedbackForm.addEventListener("submit", (event) => {
             event.preventDefault();
@@ -361,19 +362,61 @@ document.addEventListener("DOMContentLoaded", () => {
             const name = formData.get("name")?.toString().trim() || "";
             const contact = formData.get("contact")?.toString().trim() || "";
             const message = formData.get("message")?.toString().trim() || "";
+            const csrfToken = formData.get("csrfmiddlewaretoken")?.toString() || "";
 
-            trackAction("feedback_submit", {
+            const payload = {
                 name,
                 contact,
-                message_length: message.length,
-            });
+                message,
+                user_id: USER_ID,
+            };
 
-            feedbackForm.reset();
+            const onSuccess = () => {
+                trackAction("feedback_submit", {
+                    name,
+                    contact,
+                    message_length: message.length,
+                });
 
-            if (note) {
-                note.textContent = "Спасибо! Мы свяжемся с вами в ближайшее время.";
-                note.classList.add("is-success");
+                feedbackForm.reset();
+
+                if (note) {
+                    note.textContent = "Спасибо! Мы свяжемся с вами в ближайшее время.";
+                    note.classList.add("is-success");
+                }
+            };
+
+            if (!endpoint) {
+                onSuccess();
+                return;
             }
+
+            fetch(endpoint, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken,
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+                body: JSON.stringify(payload),
+            })
+                .then((response) => {
+                    if (!response.ok) throw new Error("Request failed");
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data?.status === "ok") {
+                        onSuccess();
+                    } else {
+                        throw new Error("Invalid response");
+                    }
+                })
+                .catch(() => {
+                    if (note) {
+                        note.textContent = "Не получилось отправить запрос. Проверьте соединение и попробуйте ещё раз.";
+                        note.classList.remove("is-success");
+                    }
+                });
         });
 
         feedbackForm.addEventListener("input", () => {

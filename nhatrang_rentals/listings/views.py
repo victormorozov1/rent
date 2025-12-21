@@ -1,6 +1,11 @@
+import json
+
 from django.db.models import Case, When
-from django.shortcuts import render, get_object_or_404
-from .models import Listing, Tag
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST
+
+from .models import FeedbackRequest, Listing, Tag
 
 def listing_list(request):
     qs = Listing.objects.all().prefetch_related("tags", "photos")
@@ -86,3 +91,28 @@ def favorites(request):
             "is_favorites_page": True,
         },
     )
+
+
+@require_POST
+def submit_feedback(request):
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+    except json.JSONDecodeError:
+        return JsonResponse({"status": "error", "error": "invalid_json"}, status=400)
+
+    name = (data.get("name") or "").strip()
+    contact = (data.get("contact") or "").strip()
+    message = (data.get("message") or "").strip()
+    user_id = (data.get("user_id") or "").strip() or None
+
+    if not name or not contact or not message:
+        return JsonResponse({"status": "error", "error": "missing_fields"}, status=400)
+
+    FeedbackRequest.objects.create(
+        name=name,
+        contact=contact,
+        message=message,
+        user_id=user_id,
+    )
+
+    return JsonResponse({"status": "ok"})
