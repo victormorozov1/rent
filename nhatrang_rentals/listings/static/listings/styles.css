@@ -921,6 +921,14 @@ a:hover {
     transform: translateY(-1px);
 }
 
+@media (max-width: 768px) {
+    .carousel-fullscreen-btn {
+        top: 12px;
+        right: 12px;
+        bottom: auto;
+    }
+}
+
 .carousel-lightbox[hidden] {
     display: none;
 }
