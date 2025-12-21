@@ -1016,6 +1016,7 @@ body.no-scroll {
 
     .header-favorites-link {
         padding: 11px 16px;
+        margin-right: 12px;
     }
 
     .filters-row {
