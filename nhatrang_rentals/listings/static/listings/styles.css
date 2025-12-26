@@ -301,7 +301,7 @@ a:hover {
 
 .filters-row {
     display: grid;
-    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
     gap: 16px;
 }
 
@@ -313,6 +313,9 @@ a:hover {
 
 .filter-group--tags {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .filter-group {
@@ -387,7 +390,7 @@ a:hover {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
-    align-self: end;
+    margin-top: auto;
 }
 
 /* Buttons */
