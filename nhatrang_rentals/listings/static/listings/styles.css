@@ -386,6 +386,7 @@ a:hover {
 .filters-actions {
     display: flex;
     gap: 10px;
+    justify-content: flex-end;
 }
 
 /* Buttons */
