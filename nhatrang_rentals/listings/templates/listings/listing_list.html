@@ -11,15 +11,25 @@
 <section class="filters-card">
     <form id="filter-form" method="get" class="filters-form">
         <div class="filters-row">
-            <div class="filter-group">
-                <label for="price_min">Цена от (₽)</label>
-                <input type="number" step="any" name="price_min" id="price_min" value="{{ price_min }}" placeholder="0">
+            <div class="filters-stack">
+                <div class="filter-group">
+                    <label for="price_min">Цена от (₽)</label>
+                    <input type="number" step="any" name="price_min" id="price_min" value="{{ price_min }}" placeholder="0">
+                </div>
+                <div class="filter-group">
+                    <label for="price_max">Цена до (₽)</label>
+                    <input type="number" step="any" name="price_max" id="price_max" value="{{ price_max }}" placeholder="200000">
+                </div>
+                <div class="filter-group">
+                    <label for="sort">Сортировка</label>
+                    <select name="sort" id="sort">
+                        <option value="">По умолчанию (новые сверху)</option>
+                        <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Цена: по возрастанию</option>
+                        <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Цена: по убыванию</option>
+                    </select>
+                </div>
             </div>
-            <div class="filter-group">
-                <label for="price_max">Цена до (₽)</label>
-                <input type="number" step="any" name="price_max" id="price_max" value="{{ price_max }}" placeholder="200000">
-            </div>
-            <div class="filter-group">
+            <div class="filter-group filter-group--tags">
                 <span class="filter-label">Тег</span>
                 <div class="tag-chips">
                     <label class="tag-chip{% if not current_tag %} tag-chip--active{% endif %}">
@@ -35,14 +45,6 @@
                         </label>
                     {% endfor %}
                 </div>
-            </div>
-            <div class="filter-group">
-                <label for="sort">Сортировка</label>
-                <select name="sort" id="sort">
-                    <option value="">По умолчанию (новые сверху)</option>
-                    <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Цена: по возрастанию</option>
-                    <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Цена: по убыванию</option>
-                </select>
             </div>
         </div>
         <div class="filters-actions">
