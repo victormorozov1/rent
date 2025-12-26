@@ -303,7 +303,6 @@ a:hover {
     display: grid;
     grid-template-columns: minmax(220px, 280px) minmax(0, 1fr) auto;
     gap: 16px;
-    align-items: start;
 }
 
 .filters-stack {
@@ -388,7 +387,7 @@ a:hover {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
-    align-self: start;
+    align-self: end;
 }
 
 /* Buttons */
