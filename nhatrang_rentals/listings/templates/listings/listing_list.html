@@ -45,10 +45,10 @@
                         </label>
                     {% endfor %}
                 </div>
+                <div class="filters-actions">
+                    <a href="{% url 'listings:listing_list' %}" class="btn-ghost">Сбросить</a>
+                </div>
             </div>
-        </div>
-        <div class="filters-actions">
-            <a href="{% url 'listings:listing_list' %}" class="btn-ghost">Сбросить</a>
         </div>
     </form>
 </section>
